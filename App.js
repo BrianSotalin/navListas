@@ -1,13 +1,21 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { Alert, StyleSheet, Text, View } from 'react-native';
+import { Button ,Icon,Input} from '@rneui/base';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {NavigationContainer} from '@react-navigation/native';
+import {GradeForm} from './app/Screens/GradeForm';
+import {ListGrades} from './app/Screens/ListGrades';
 
 export default function App() {
+  const StackGrades=createNativeStackNavigator();
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+   <NavigationContainer>
+   <StackGrades.Navigator>
+    <StackGrades.Screen name='GradeFormNav' component={GradeForm}/>
+    <StackGrades.Screen name='ListGradesNav' component={ListGrades}/>
+   </StackGrades.Navigator>
+   </NavigationContainer>
   );
 }
 
