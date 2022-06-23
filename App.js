@@ -10,10 +10,11 @@ import {ListGrades} from './app/Screens/ListGrades';
 export default function App() {
   const StackGrades=createNativeStackNavigator();
   return (
-   <NavigationContainer>
+   <NavigationContainer >
    <StackGrades.Navigator>
+   <StackGrades.Screen name='ListGradesNav' component={ListGrades}/>
     <StackGrades.Screen name='GradeFormNav' component={GradeForm}/>
-    <StackGrades.Screen name='ListGradesNav' component={ListGrades}/>
+
    </StackGrades.Navigator>
    </NavigationContainer>
   );

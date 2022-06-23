@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Button ,Icon,Input,onPress} from '@rneui/base';
 import {guardarNotas} from '../Services/GradeServices'
 
-export const GradeForm = () => {
+export const GradeForm = ({navigation}) => {
     const [materia,setMateria]=useState();
     const [nota,setNota]=useState();
     const [errorMateria,setErrorMateria]=useState();
@@ -16,6 +16,7 @@ export const GradeForm = () => {
         validacion();
         if(!hasError){
             guardarNotas({materia:materia,nota:nota});
+            navigation.navigate('ListGradesNav')
         }
 
     }
@@ -48,23 +49,22 @@ export const GradeForm = () => {
       errorMessage={errorNota}
       />
       <Button
-      title={'Guardar'}
-      color='secondary'
-      icon={{
-        name:'save',
-        type:'feather',
-        color:'white'
-      }}
+      color='#012C44'
       onPress={save}
-      />
+      buttonStyle={{width:120,marginHorizontal:10,justifyContent:'space-evenly',borderRadius:15}}
+      >
+        Guardar 
+        <Icon  name='save' type='feather' color='white' />
+      </Button>
     </View>
   )
 }
 const styles =StyleSheet.create({
     container:{
-        flex: 1, 
-        alignItems: 'center', 
-        justifyContent: 'center'
+        flex: 1,
+        alignItems:'center',  
+        justifyContent:'center',
+        marginHorizontal:30
     }
 });
 export default GradeForm
