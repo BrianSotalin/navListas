@@ -1,11 +1,22 @@
 import { View, Text,StyleSheet,Alert } from 'react-native'
 import React, { useState } from 'react';
 import { Button ,Icon,Input,onPress} from '@rneui/base';
-import {guardarNotas} from '../Services/GradeServices'
+import {guardarNotas,modificacion} from '../Services/GradeServices'
 
-export const GradeForm = ({navigation}) => {
-    const [materia,setMateria]=useState();
-    const [nota,setNota]=useState();
+export const GradeForm = ({navigation,route}) => {
+    let isNew=true;
+    let materiaM;
+    let notaM;
+    console.log('Grade',route.params.grade);
+    if(route.params.grade!=null){
+         isNew=false;
+    }
+    if(!isNew){
+      materiaM=route.params.grade.materia;
+      notaM=route.params.grade.nota;
+    }
+    const [materia,setMateria]=useState(materiaM);
+    const [nota,setNota]=useState(notaM==null?null:notaM+'');
     const [errorMateria,setErrorMateria]=useState();
     const [errorNota,setErrorNota]=useState();
     let hasError=false;
@@ -15,8 +26,13 @@ export const GradeForm = ({navigation}) => {
         setErrorNota(null);
         validacion();
         if(!hasError){
+          if (isNew){
             guardarNotas({materia:materia,nota:nota});
-            navigation.navigate('ListGradesNav')
+          }else{
+            modificacion({materia:materia,nota:nota});
+          }
+            navigation.goBack();
+            route.params.refrescando();
         }
 
     }
@@ -39,6 +55,7 @@ export const GradeForm = ({navigation}) => {
       placeholder='Ejemplo: Programacion'
       label='Materia'
       errorMessage={errorMateria}
+      disabled={!isNew}
       />
        <Input
       value={nota}

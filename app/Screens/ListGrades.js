@@ -1,11 +1,16 @@
-import { View, Text,StyleSheet,FlatList } from 'react-native'
-import React from 'react'
+import { View, Text,StyleSheet,FlatList,TouchableHighlight } from 'react-native'
+import React, { useState } from 'react'
 import {getNotas} from '../Services/GradeServices'
 import { Avatar, color, FAB, ListItem } from "@rneui/base";
 
 export const ListGrades = ({navigation}) => {
+  const [time,setTime]=useState();
+  const refresh=()=>{
+    setTime(new Date().getTime());
+  }
   const ItemGrade =({nota})=>{
-   return <ListItem bottomDivider>
+   return <TouchableHighlight onPress={()=>{navigation.navigate('GradeFormNav',{grade:nota,refrescando:refresh})}}>     
+    <ListItem bottomDivider>
    <Avatar
     title={nota.materia.substring(0,1)}
     containerStyle={{ backgroundColor: '#012C44' }}
@@ -20,6 +25,7 @@ export const ListGrades = ({navigation}) => {
     </ListItem.Content>
     <ListItem.Chevron color={'#7D50D4'}/>
    </ListItem>
+   </TouchableHighlight> 
      
   }
   return (
@@ -30,12 +36,13 @@ export const ListGrades = ({navigation}) => {
                return  <ItemGrade nota={item}/>
       }}
       keyExtractor={(item)=>{return item.materia}}
+      extraData={time}
       />
       <FAB
       icon={{ name: 'add', color: 'white' }}
       color='#012C44'
       placement='right'
-      onPress={()=>{navigation.navigate('GradeFormNav')}}
+      onPress={()=>{navigation.navigate('GradeFormNav',{grade:null,refrescando:refresh})}}
       />
     </View>
   )
